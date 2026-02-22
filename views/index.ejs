@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-zinc-900 to-black text-white min-h-screen">
+
+  <!-- Container -->
+  <div class="max-w-6xl mx-auto px-6 py-12">
+
+    <!-- Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
+        Task Manager
+      </h1>
+      <p class="text-gray-400 mt-3 text-lg">
+        Organize your work beautifully & efficiently
+      </p>
+    </div>
+
+    <!-- Create Task Card -->
+    <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8 mb-14 hover:shadow-blue-500/10 transition duration-500">
+      
+      <h2 class="text-2xl font-semibold mb-6">Create New Task</h2>
+
+      <form action="/create" method="post" class="space-y-6">
+
+        <input 
+          type="text"
+          name="title"
+          placeholder="Task title..."
+          required
+          class="w-full px-5 py-3 rounded-xl bg-zinc-800/80 border border-zinc-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 outline-none transition"
+        />
+
+        <textarea
+          name="details"
+          placeholder="Write task details..."
+          required
+          class="w-full px-5 py-3 rounded-xl bg-zinc-800/80 border border-zinc-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 outline-none resize-none h-36 transition"
+        ></textarea>
+
+        <button 
+          type="submit"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 font-semibold tracking-wide shadow-lg hover:shadow-blue-500/30 transition duration-300 transform hover:-translate-y-1 cursor-pointer"
+        >
+          Create Task
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Tasks Section -->
+    <div>
+      <h2 class="text-2xl font-semibold mb-8">Your Tasks</h2>
+
+      <% if(fileNames && fileNames.length > 0) { %>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <% fileNames.forEach((fileName)=> { %>
+
+            <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg hover:shadow-blue-500/20 transition duration-500 group">
+
+              <h3 class="text-xl font-bold mb-3 group-hover:text-blue-400 transition">
+                <%= fileName.split("_").join(" ").slice(0, -4) %>
+              </h3>
+
+              <div class="flex items-center justify-between mt-6">
+
+                <a href="/file/<%=fileName %>" 
+                   class="text-blue-400 hover:text-blue-300 font-medium transition">
+                  Read More →
+                </a>
+
+                <div class="flex gap-4 text-sm">
+
+                  <a href="/edit/<%=fileName %>" 
+                     class="text-gray-400 hover:text-yellow-400 transition">
+                    Edit
+                  </a>
+
+                  <a href="/delete/<%=fileName %>" 
+                     class="text-gray-400 hover:text-red-500 transition">
+                    Delete
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      <% } else { %>
+
+        <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-10 text-center text-gray-400">
+          <p class="text-lg">No tasks yet.</p>
+          <p class="text-sm mt-2">Start by creating your first task above ✨</p>
+        </div>
+
+      <% } %>
+    </div>
+
+  </div>
+
+</body>
+</html>
